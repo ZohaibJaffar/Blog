@@ -1,6 +1,5 @@
 const User = require('../models/User.js')
-const {v4 : uuidv4} = require("uuid")
-const {setUser} = require('../util/service.js')
+const Blog = require("../models/blog.js")
 async function handleSignupPost(req,res){
     const body = req.body 
     const newUser = await User.create({
@@ -20,16 +19,15 @@ async function handleSigninPost(req,res){
     }catch(error){
        return  res.render('signin',{
         error : "Invalid Email or Password"})
-    }
-
-
-    
-
-    
-
-
-
-    
+    }}
+async function handleNewBlog(req,res){
+    console.log(req.body)
+    const {title , description} = req.body
+    const newBlog = await Blog.create({
+        title,
+        description,
+        createdBy : User._id
+    })
+    res.redirect("/addblog")
 }
-
-module.exports = {handleSignupPost,handleSigninPost}
+module.exports = {handleSignupPost,handleSigninPost,handleNewBlog}

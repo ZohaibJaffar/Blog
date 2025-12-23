@@ -22,7 +22,7 @@ staticRoutes.get("/logout",(req,res)=>{
         res.clearCookie('uid').redirect('/')
 
     })
-    staticRoutes.get("/addblogs",(req,res)=>{
+    staticRoutes.get("/addblog",(req,res)=>{
         res.render("addblog",{
             user : req.user
         })
