@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken')
-
+ const jwt = require('jsonwebtoken')
+ privateKey = process.env.Jwt_PrivateKey
 
 function setUser(user){
     return jwt.sign({
@@ -7,12 +7,12 @@ function setUser(user){
         name : user.fullName,
         email : user.email,
         profilePic : user.profile
-    },process.env.Jwt_PrivateKey)
+    },privateKey)
 }
 function getUser(Token){
     if(!Token) return null;
     try{
-        return jwt.verify(Token,process.env.Jwt_PrivateKey)
+        return jwt.verify(Token,privateKey)
     }catch(err){
         console.log("Invalid Token")
         return null 

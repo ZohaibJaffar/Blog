@@ -12,16 +12,18 @@ async function handleSignupPost(req,res){
 }
 
 async function handleSigninPost(req,res){
-    const body=  req.body
-    console.log(body)
-    const user = await User.matchPassword(body.email , body.password)
-    console.log('User',user)
-    if(!user) return res.redirect('/signin')
-        
-        const token = setUser(user)
-
-        res.cookie('uid',token)
+    try{
+        const body=  req.body
+        const token = await User.matchPasswordAndGenerateToken(body.email , body.password)
+            res.cookie('uid',token)
     return res.redirect('/')
+    }catch(error){
+       return  res.render('signin',{
+        error : "Invalid Email or Password"})
+    }
+    
+
+    
 
     
 

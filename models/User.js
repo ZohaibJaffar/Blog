@@ -2,6 +2,7 @@ const { timeStamp } = require('console')
 //createHmac is used for Hashing the password
 const {createHmac, randomBytes}= require('crypto')
 const {Mongoose, default: mongoose}= require('mongoose')
+const {setUser} = require("../util/service.js")
 
  const userSchema  =  new mongoose.Schema({
     fullName:{
@@ -53,7 +54,7 @@ userSchema.pre('save', async function(){
     }
 })
 
-userSchema.static('matchPassword',async function(email,password){
+userSchema.static('matchPasswordAndGenerateToken',async function(email,password){
     const user = await this.findOne({email})
     if (!user) return null;
     const salt = user.salt
@@ -63,7 +64,7 @@ userSchema.static('matchPassword',async function(email,password){
     .update(password)
     .digest('hex')
     if(hashedPassword !== userhashedPassword) throw new Error ("Incorrect Password")
-    return user
+    return setUser(user)
 })
 
 const User = mongoose.model('User',userSchema)
