@@ -5,6 +5,7 @@ const routes = require("./routes/user.js")
 const staticRoutes = require("./routes/static.js")
 const DBconnection = require("./connection/connection.js")
 const cookieParser = require('cookie-parser');
+const {restrictToUser} = require('./middlewares/auth.js')
 
 
 const app = express()
@@ -14,11 +15,13 @@ app.use(cookieParser());
 
 app.use(express.urlencoded({extended : false }))
 DBconnection(process.env.MongoDB_URL)
+
 // Tell Express we are using EJS as our template engine
 app.set('view engine', 'ejs');
 
 // Tell Express where our 'views' folder is located
 app.set('views', path.join(__dirname, 'views'));
+app.use(restrictToUser('uid'))
 
 app.use("/",routes)
 app.use('/',staticRoutes)

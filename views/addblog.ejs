@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <%- include('./partial/head') %>
+    <title>Document</title>
+</head>
+<body>
+    <%- include('./partial/nav') %>
+    <H1>Add New Blogs</H1>
+    <div class="container mt-5">
+        <form action="/addblogs" method="post" >
+            <div>
+                <div class="mb-3">
+                    <label for="text" class="form-label">Title</label>
+                    <input  name="title"  type="text" class="form-control" id="text" aria-describedby="emailHelp"/>
+            </div>
+            <div>
+                 <label class="form-label">Describtion</label>
+                   <textarea class="form-control" id="floatingTextarea2" style="height: 100px"></textarea>
+
+
+            </div>
+  <button type="submit" class="btn btn-primary mt-5">Add</button>
+        </form>
+    </div>
+<%- include('./partial/script') %>
+</body>
+</html>

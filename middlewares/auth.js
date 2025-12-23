@@ -1,16 +1,20 @@
 const {getUser} = require('../util/service.js')
 
-async function restrictToUser(req,res,next){
-    console.log(req.cookie)
-    const token = req.cookies?.uid
-    console.log(token)
-    if(!token) return res.redirect('/signin')
-    const user = getUser(token)
-    if(!user) return res.redirect('/signin')
+function restrictToUser(uid){
+    return (req,res,next)=>{
+        const userCookie = req.cookies?.uid
+        if(!userCookie){
+            return next()
+        }
+    try{
+        const userPayload = getUser(userCookie)
+        req.user = userPayload
+        return next()
+    }catch(err){
 
-        user.req = user 
-        next()
-
+    }
+    return next()
+}
     
 }
 
