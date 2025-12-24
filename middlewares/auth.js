@@ -4,7 +4,7 @@ function restrictToUser(uid){
     return (req,res,next)=>{
         const userCookie = req.cookies?.uid
         if(!userCookie){
-            res.redirect("/signin")
+            return next()
         }
     try{
         const userPayload = getUser(userCookie)

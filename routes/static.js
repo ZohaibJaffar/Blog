@@ -1,6 +1,6 @@
 const express = require("express")
 
-
+const Blog = require( '../models/blog.js')
 const staticRoutes = express.Router()
 
 
@@ -8,22 +8,26 @@ staticRoutes.get('/signup',(req,res)=>{
     res.render("signup")
 })
 
-staticRoutes.get('/',(req,res)=>{
-    res.render("home",{
-        user : req.user
+staticRoutes.get('/',async (req,res)=>{
+    
+    const allBlogs = await Blog.find({})
+    console.log(allBlogs)
+    return res.render("home",{
+        user : req.user,
+        blogs : allBlogs
     })
 })
 
 staticRoutes.get('/signin',(req,res)=>{
-    res.render("signin")
+    return res.render("signin")
 })
 
 staticRoutes.get("/logout",(req,res)=>{
-        res.clearCookie('uid').redirect('/')
+        return res.clearCookie('uid').redirect('/')
 
     })
     staticRoutes.get("/addblog",(req,res)=>{
-        res.render("addblog",{
+        return res.render("addblog",{
             user : req.user
         })
     })

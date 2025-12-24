@@ -23,11 +23,11 @@ async function handleSigninPost(req,res){
 async function handleNewBlog(req,res){
     
     console.log(req.body)
-    const {title , description, image, createdBy} = req.body
+    const {title , description} = req.body
     const newBlog = await Blog.create({
         title,
         description,
-        image,
+        image : `/blogs/${req.file.filename}`,
         createdBy : req.user._id
 
     })
