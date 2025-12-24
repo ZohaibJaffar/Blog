@@ -53,7 +53,7 @@ userSchema.pre('save', async function(){
         next(err)
     }
 })
-
+//this is  a function for check the password 
 userSchema.static('matchPasswordAndGenerateToken',async function(email,password){
     const user = await this.findOne({email})
     if (!user) return null;

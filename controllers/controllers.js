@@ -21,13 +21,18 @@ async function handleSigninPost(req,res){
         error : "Invalid Email or Password"})
     }}
 async function handleNewBlog(req,res){
+    
     console.log(req.body)
-    const {title , description} = req.body
+    const {title , description, image, createdBy} = req.body
     const newBlog = await Blog.create({
         title,
         description,
-        createdBy : User._id
+        image,
+        createdBy : req.user._id
+
     })
-    res.redirect("/addblog")
+    res.render("addblog",{
+        user : req.user
+    })
 }
 module.exports = {handleSignupPost,handleSigninPost,handleNewBlog}

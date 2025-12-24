@@ -8,7 +8,12 @@
     <%- include('./partial/nav') %>
     <H1>Add New Blogs</H1>
     <div class="container mt-5">
-        <form action="/addblog" method="post" >
+        <form action="/addblog" method="post" enctype="multipart/form-data" >
+                 <div class="mb-3">
+                    <label for="image" class="btn btn-primary">Upload Images</label>
+                    <br>
+                    <input  name="image"  type="file" id="image" class=" mt-2" />
+            </div>
                 <div class="mb-3">
                     <label for="text" class="form-label">Title</label>
                     <input  name="title"  type="text" class="form-control" id="text" aria-describedby="emailHelp"/>
