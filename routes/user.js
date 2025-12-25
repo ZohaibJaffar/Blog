@@ -1,7 +1,7 @@
 const express = require('express')
 const path = require ("path")
 const multer = require ("multer")
-const {handleSignupPost,handleSigninPost,handleNewBlog} = require("../controllers/controllers.js")
+const {handleSignupPost,handleSigninPost,handleNewBlog,handleCommentPost} = require("../controllers/controllers.js")
 
 const routes = express.Router()
 //multer is library for handle image 
@@ -14,10 +14,12 @@ const storage = multer.diskStorage({
     }
 })
 const upload = multer({storage})
+
 routes.post('/signup',handleSignupPost)
 // routes.get("/signup")
 routes.post("/signin",handleSigninPost)
 routes.post("/addblog",upload.single('image'),handleNewBlog)
+routes.post('/:blogId',handleCommentPost)
 
 
 module.exports = routes

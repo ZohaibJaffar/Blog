@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <%- include('./partial/head') %>
+    <title>Document</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <%- include('./partial/nav') %>
+    <div class="container mt-3">
+        <h1><b>Title :-</b> <%= blog.title %></h1>
+        <br>
+        <img id="img" class="container mt-2" src="<%= blog.image %>">
+        <br>
+        <per class="container mt-2"><b>Description :- </b> <%= blog.description %></per>
+    </div>
+    <div class="container mt-3">
+        <h5>Written By </h5>
+        <img src="<%= blog.createdBy.profile %>" alt="" width="40px">
+        <%= blog.createdBy.fullName %>
+
+    </div>
+    <% if (locals.user) { %>
+        <div class="container mt-2">
+          
+            <form action="/<%= blog.id %>" method="post">
+                <div>
+                           <textarea  name="content" class="form-control" placeholder="Comment" id="floatingTextarea2" style="height: 100px"></textarea>
+                        </div>
+          <button type="submit" class="btn btn-primary mt-5">Comment</button>
+            </form>
+        </div>
+        <% } %>
+        <div class="container mt-2">
+              <h3>Comment (<%= comments.length %>) </h3> 
+            <% comments.forEach(comment => { %>
+             <div>
+                 <img src="<%= comment.createdBy.profile %>" alt="" width="40px">
+    <%= comment.createdBy.fullName %>
+    <pre><%= comment.content %></pre>
+             </div>
+            <% }) %>
+        </div>
+<%- include('./partial/script') %>
+</body>
+</html>

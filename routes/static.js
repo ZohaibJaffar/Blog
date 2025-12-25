@@ -1,6 +1,7 @@
 const express = require("express")
 
 const Blog = require( '../models/blog.js')
+const Comment = require( '../models/comments.js')
 const staticRoutes = express.Router()
 
 
@@ -29,6 +30,16 @@ staticRoutes.get("/logout",(req,res)=>{
     staticRoutes.get("/addblog",(req,res)=>{
         return res.render("addblog",{
             user : req.user
+        })
+    })
+
+    staticRoutes.get("/:id",async (req,res)=>{
+        const blog = await Blog.findById(req.params.id).populate('createdBy')
+        const comments = await Comment.find({blogId : req.params.id}).populate('createdBy')
+        res.render('blog',{
+            user :req.user,
+            blog,
+            comments
         })
     })
 
