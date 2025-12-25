@@ -12,7 +12,7 @@ const app = express()
 const PORT = process.env.PORT || 7000;
 
 app.use(cookieParser());
-
+app.get('/favicon.ico', (req, res) => res.status(204).end());
 app.use(express.urlencoded({extended : false }))
 DBconnection(process.env.MongoDB_URL)
 
@@ -23,6 +23,7 @@ app.set('view engine', 'ejs');
 // Tell Express where our 'views' folder is located
 app.set('views', path.join(__dirname, 'views'));
 app.use(restrictToUser('uid'))
+
 app.use(express.static(path.resolve("./public")));
 app.use("/",routes)
 app.use('/',staticRoutes)

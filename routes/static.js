@@ -43,4 +43,6 @@ staticRoutes.get("/logout",(req,res)=>{
         })
     })
 
+
+    // staticRoutes.get('/favicon.ico', (req, res) => res.status(204).end());
 module.exports = staticRoutes

@@ -3,12 +3,16 @@ const Blog = require("../models/blog.js")
 const Comment = require("../models/comments.js")
 async function handleSignupPost(req,res){
     const body = req.body 
+    const profileImage = req.file 
+        ? `/image/${req.file.filename}` 
+        : '/images/default-avatar.png'; // Make sure this folder/file exists
     const newUser = await User.create({
         fullName : body.fullName,
         email  : body.email,
-        password : body.password
+        password : body.password,
+        profile : profileImage
     })
-    return res.redirect('/')
+    return res.redirect('/signin')
 }
 
 async function handleSigninPost(req,res){

@@ -8,7 +8,7 @@
     <%- include('./partial/nav') %>
     <div class="container" mt-8>
       <h1>Signup</h1>
-        <form action="/signup" method="post" >
+        <form action="/signup" method="post" enctype="multipart/form-data">
   <div class="mb-3">
     <label name="fullName" for="exampleInputName1" class="form-label" >Name</label>
     <input name="fullName" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
@@ -23,6 +23,11 @@
     <label for="exampleInputPassword1" class="form-label"  >Password</label>
     <input name="password" type="password" class="form-control" id="exampleInputPassword1">
   </div>
+  <div class="mb-3">
+                    <label for="profile" class="btn btn-primary">Profile Image</label>
+                    <br>
+                    <input  name="profile"  type="file" id="image" class=" mt-2" />
+            </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
     </div>

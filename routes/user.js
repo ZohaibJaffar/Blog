@@ -14,8 +14,17 @@ const storage = multer.diskStorage({
     }
 })
 const upload = multer({storage})
+const storages = multer.diskStorage({
+    destination(req,file,cb){
+        return cb(null, path.join(__dirname, "../public/image"))
+    },
+    filename(req,file,cb){
+        return cb(null,`${Date.now()}-${file.originalname}`)
+    }
+})
+const uploads = multer({storage :  storages})
 
-routes.post('/signup',handleSignupPost)
+routes.post('/signup',uploads.single('profile'),handleSignupPost)
 // routes.get("/signup")
 routes.post("/signin",handleSigninPost)
 routes.post("/addblog",upload.single('image'),handleNewBlog)
