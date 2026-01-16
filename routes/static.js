@@ -1,8 +1,13 @@
 const express = require("express")
-
+const User = require("../models/User.js")
 const Blog = require( '../models/blog.js')
 const Comment = require( '../models/comments.js')
 const staticRoutes = express.Router()
+
+
+
+
+
 
 
 staticRoutes.get('/signup',(req,res)=>{
@@ -10,13 +15,19 @@ staticRoutes.get('/signup',(req,res)=>{
 })
 
 staticRoutes.get('/',async (req,res)=>{
-    
-    const allBlogs = await Blog.find({})
-    console.log(allBlogs)
-    return res.render("home",{
-        user : req.user,
-        blogs : allBlogs
-    })
+    try {
+        
+        const email = req.user ? req.user.email : null;
+         const user = await User.find({email})
+         console.log(user)
+         const allBlogs = await Blog.find({})
+         return res.render("home",{
+             user : user,
+             blogs : allBlogs
+         })
+    } catch (error) {
+        console.log("There is an error",error)
+    }
 })
 
 staticRoutes.get('/signin',(req,res)=>{

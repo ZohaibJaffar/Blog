@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark border-bottom border-body" data-bs-theme="dark">
+<!-- <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark border-bottom border-body" data-bs-theme="dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Zohaib Blogs</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,9 +13,11 @@
            <li class="nav-item">
           <a class="nav-link" href="/addblog">Add blogs</a>
         </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"><%= locals.user.fullName %></a>
+        </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <% locals.user.fullName %>
           
           </a>
           <ul class="dropdown-menu">
@@ -39,4 +41,34 @@
    <%= locals.error %>
 </div>
 <% } %>
-   
+    -->
+<nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Zohaib Blogs</a>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" href="/">Home</a>
+        </li>
+        
+        <% if (locals.user) { %>
+          <li class="nav-item">
+            <a class="nav-link" href="/addblog">Add blogs</a>
+          </li>
+          
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+              <img src="<%= locals.user.profile %>" width="25" height="25" class="rounded-circle me-1">
+              <%= locals.user.fullName %> </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/logout">Logout</a></li>
+            </ul>
+          </li>
+        <% } else { %>
+          <li class="nav-item"><a class="nav-link" href="/signup">Create Account</a></li>
+          <li class="nav-item"><a class="nav-link" href="/signin">Login</a></li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>

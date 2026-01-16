@@ -25,6 +25,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(restrictToUser('uid'))
 
 app.use(express.static(path.resolve("./public")));
+
 app.use("/",routes)
 app.use('/',staticRoutes)
 

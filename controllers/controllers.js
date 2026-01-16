@@ -1,19 +1,53 @@
 const User = require('../models/User.js')
 const Blog = require("../models/blog.js")
 const Comment = require("../models/comments.js")
-async function handleSignupPost(req,res){
-    const body = req.body 
-    const profileImage = req.file 
-        ? `/image/${req.file.filename}` 
-        : '/images/default-avatar.png'; // Make sure this folder/file exists
-    const newUser = await User.create({
-        fullName : body.fullName,
-        email  : body.email,
-        password : body.password,
-        profile : profileImage
-    })
-    return res.redirect('/signin')
+const uploadOnCloudinary = require("../util/Cloudinary.js")
+
+// async function handleSignupPost(req,res){
+    // const body = req.body 
+    // const profile = req.file 
+    //     ? `/image/${req.file.filename}` 
+    //     : '/images/default-avatar.png'; // Make sure this folder/file exists
+    //     const uploadCouldinary = uploadOnCloudinary(profile)
+    //     const profileImage = uploadCouldinary.url
+    //     console.log(profileImage)
+
+    // const newUser = await User.create({
+    //     fullName : body.fullName,
+    //     email  : body.email,
+    //     password : body.password,
+    //     profile : profileImage
+    // })
+    // return res.redirect('/signin')
+    async function handleSignupPost(req, res) {
+    try {
+        const body = req.body;
+        let profileImage = '/images/default-avatar.png'; // Default fallback
+
+        if (req.file) {
+            // 1. Pass the actual local PATH, not the string URL
+            const uploadResponse = await uploadOnCloudinary(req.file.path);
+            
+            if (uploadResponse) {
+                profileImage = uploadResponse.secure_url; // Use secure_url for HTTPS
+            }
+        }
+        console.log(profileImage)
+
+        const newUser = await User.create({
+            fullName: body.fullName,
+            email: body.email,
+            password: body.password,
+            profile: profileImage
+        });
+
+        return res.redirect('/signin');
+    } catch (error) {
+        console.error("Signup Error:", error);
+        return res.status(500).send("Internal Server Error");
+    }
 }
+
 
 async function handleSigninPost(req,res){
     try{
@@ -28,12 +62,22 @@ async function handleSigninPost(req,res){
     }}
 async function handleNewBlog(req,res){
     
-    console.log(req.body)
-    const {title , description} = req.body
+    // console.log(req.body)
+    const body = req.body; // Default fallback
+
+        if (req.file) {
+            // 1. Pass the actual local PATH, not the string URL
+            const uploadResponse = await uploadOnCloudinary(req.file.path);
+            
+            if (uploadResponse) {
+                profileImage = uploadResponse.secure_url; // Use secure_url for HTTPS
+            }
+        }
+
     const newBlog = await Blog.create({
-        title,
-        description,
-        image : `/blogs/${req.file.filename}`,
+        title : body.title,
+        description : body.description,
+        image : profileImage,
         createdBy : req.user._id
 
     })

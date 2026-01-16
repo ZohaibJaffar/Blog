@@ -13,6 +13,9 @@ async function uploadOnCloudinary(filePath){
         const respones = await cloudinary.uploader.upload(filePath,{
             resource_type : "auto"
         })
+
+        // File has been uploaded successfully, remove it from local server
+        if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
         console.log("The file is has been uploaded on Cloudinary ",respones.url)
     return respones
         } catch (error) {
